@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add-course</title>
+</head>
+<body>
+<div>
+    <form action="/courses/add" method="POST">
+        <div>
+            <label for="name">Course name</label>
+            <input type="text" id="name" name="name" th:value="(${course} != null ? ${course.getName()} : '')" required
+                   placeholder="Enter course name">
+        </div>
+        <div>
+            <label for="description">Course description</label>
+            <input type="text" id="description" name="description" th:value="(${course} != null ? ${course.getDescription()}
+            : '')" required placeholder="Enter product name">
+        </div>
+        <div>
+            <label>Teacher</label>
+            <select name="teacherId">
+                <option th:if="${course} != null"
+                        th:selected="${course.teacher != null && course.getTeacher().getId() == teacher.getId()}"
+                        th:each="teacher : ${teachers}"
+                        th:value="${teacher.getId()}"
+                        th:text="${teacher.getSurname()}">
+                </option>
+                <option th:if="${course} == null"
+                        th:each="teacher: ${teachers}"
+                        th:value="${teacher.getId()}"
+                        th:text="${teacher.getSurname()}">
+                </option>
+            </select>
+        </div>
+        <div>
+            <input name="date" type="date" th:if="${course} != null" th:value="${course.getDate()}">
+        </div>
+        <input type="hidden" value="${course.}">
+        <input type="submit" value="submit">
+        <!--<p th:if="${course} != null" th:text="${course.getTeacher().getId()}"></p>-->
+    </form>
+</div>
+</body>
+</html>

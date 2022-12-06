@@ -1,0 +1,50 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Welcome and Choose a Course</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Courses List</h1>
+</header>
+<main>
+    <h2>Choose course:</h2>
+    <form action="/courses" method="POST">
+        <div th:each="course : ${courses}">
+            <input th:type="radio" th:name="courseId" th:value="${course.getCourseId()}" required th:text="${course.getName()}">
+            <a type="button" th:href="@{'courses/delete/{id}' (id=${course.getCourseId()})}">
+                <i>Delete</i>
+            </a>
+            <!--<form th:action="@{'courses/delete/{id}' (id=${course.getCourseId()})}" th:method="DELETE">
+                <button type="submit">
+                    <i>Delete</i>
+                </button>
+            </form>
+            <form th:action="@{'courses/edit-form/{id}' (id=${course.getCourseId()})}" th:method="POST">
+                <button type="submit">Edit</button>
+            </form>-->
+            <a type="button" th:href="@{'courses/edit-form/{id}' (id=${course.getCourseId()})}">
+                <i>Edit</i>
+            </a>
+            <br>
+        </div>
+        <div th:if="${hasError}">
+            <div th:text="error"></div>
+        </div>
+        <input type="submit" value="submit">
+        <br/>
+        </form>
+    </form>
+    <div>
+        <a type="button" th:href="@{'/courses/add-form'}">Add new course</a>
+    </div>
+    <div th:text="${'Session count: ' + ses}"></div>
+</main>
+</body>
+</html>
