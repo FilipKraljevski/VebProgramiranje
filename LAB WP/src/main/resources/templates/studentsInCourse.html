@@ -9,10 +9,34 @@
 </header>
 <section>
     <div th:text="${course.getName()}"></div>
-    <ul>
+    <form action="/studentEnrollmentSummary/addGrade" method="POST">
+        <div th:each="grade : ${grades}">
+            <input th:type="radio" th:name="gradeId" th:value="${grade.getId()}" required th:text="${grade.getStudent().getName()}
+            +' '+${grade.getStudent().getSurname()}+' ('+${grade.getStudent().getUsername()}+')'+ ${grade.getGrade()} +
+            ' ' + ${#temporals.format(grade.getTimestamp(), 'dd-MM-yyyy HH:mm')}">
+        </div>
+        <input type="submit" value="submit" th:text="'Add or Edit grade'">
+    </form>
+    <form action="/studentEnrollmentSummary/filterGrade" method="POST">
+        <div>
+            <label for="from">Grades from</label>
+            <input type="datetime-local" id="from" name="timeFrom" placeholder="Enter time">
+        </div>
+        <div>
+            <label for="to">Grades to</label>
+            <input type="datetime-local" id="to" name="timeTo" placeholder="Enter time">
+        </div>
+        <input type="submit" value="submit">
+    </form>
+    <!--<ul>
         <li th:each="student : ${students}" th:text="${student.getName()}+' '+${student.getSurname()}+' ('+${student.getUsername()
         }+')'"></li>
     </ul>
+    <ul>
+        <li th:each="grade : ${grades}" th:text="${grade.getStudent().getName()}+' '+${grade.getStudent().getSurname()}+
+        ' ('+${grade.getStudent().getUsername()}+')' + ${grade.getGrade()}" ></li>
+    </ul>-->
+
     <a href="/courses">Back</a>
 </section>
 

@@ -1,6 +1,7 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
 import mk.ukim.finki.wp.lab.model.Course;
+import mk.ukim.finki.wp.lab.model.enumaration.Type;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.TeacherService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -31,7 +32,7 @@ public class CourseController {
             model.addAttribute("error", error);
         }
         HttpSession session = req.getSession();
-        session.setMaxInactiveInterval(10);
+        //session.setMaxInactiveInterval(10);
         courseService.listAll().sort(Comparator.comparing(Course::getName));
         model.addAttribute("ses", session.getServletContext().getAttribute("num"));
         model.addAttribute("courses", courseService.listAll());
@@ -48,10 +49,10 @@ public class CourseController {
     @PostMapping("/add")
     public String saveCourse(@RequestParam String name, @RequestParam String description, @RequestParam Long teacherId,
                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                             HttpServletRequest req){
+                             @RequestParam String type, HttpServletRequest req){
         Object o = req.getSession().getAttribute("courseId");
         Long id = Long.valueOf(String.valueOf(o));
-        courseService.save(name, description, teacherId, id, date);
+        courseService.save(name, description, teacherId, id, date, Type.valueOf(type));
         return "redirect:/courses";
     }
 
@@ -67,6 +68,7 @@ public class CourseController {
             Course courses = courseService.findById(id).orElse(null);
             model.addAttribute("course",courses);
             model.addAttribute("teachers", teacherService.findAll());
+            model.addAttribute("types", Type.class.getEnumConstants());
             req.getSession().setAttribute("courseId", id);
             return "add-course";
         }
@@ -76,6 +78,7 @@ public class CourseController {
     @GetMapping("/add-form")
     public String getAddCoursePage(Model model, HttpServletRequest req){
         model.addAttribute("teachers", teacherService.findAll());
+        model.addAttribute("types", Type.class.getEnumConstants());
         req.getSession().setAttribute("courseId", 0);
         return "add-course";
     }

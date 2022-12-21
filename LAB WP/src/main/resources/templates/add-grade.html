@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add grade</title>
+</head>
+<body>
+<div>
+    <form action="/studentEnrollmentSummary/putGrade" method="POST">
+        <div>
+            <label for="grade">Grade</label>
+            <input type="text" id="grade" name="grade" th:value="(${grade} != null ? ${grade.getGrade()} : '')" required
+                   placeholder="Enter grade of one character">
+        </div>
+        <div>
+            <label for="time">Grade</label>
+            <input type="datetime-local" id="time" name="time" th:value="(${grade} != null ? ${grade.getTimestamp()} :
+            '')" required placeholder="Enter time">
+        </div>
+        <input type="submit" value="submit">
+    </form>
+</div>
+</body>
+</html>

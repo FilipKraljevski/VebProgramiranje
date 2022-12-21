@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.lab.service;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Student;
+import mk.ukim.finki.wp.lab.model.enumaration.Type;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,7 +15,7 @@ public interface CourseService {
 
     List<Course> listAll();
 
-    Optional<Course> save(String name, String description, Long teachersId, Long id, LocalDate date);
+    Optional<Course> save(String name, String description, Long teachersId, Long id, LocalDate date, Type type);
 
     void deleteById(Long id);
 

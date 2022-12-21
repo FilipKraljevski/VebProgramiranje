@@ -15,7 +15,7 @@
         <div>
             <label for="description">Course description</label>
             <input type="text" id="description" name="description" th:value="(${course} != null ? ${course.getDescription()}
-            : '')" required placeholder="Enter product name">
+            : '')" required placeholder="Enter course description">
         </div>
         <div>
             <label>Teacher</label>
@@ -24,17 +24,33 @@
                         th:selected="${course.teacher != null && course.getTeacher().getId() == teacher.getId()}"
                         th:each="teacher : ${teachers}"
                         th:value="${teacher.getId()}"
-                        th:text="${teacher.getSurname()}">
+                        th:text="${teacher.getTeacherFullname().getSurname()}">
                 </option>
                 <option th:if="${course} == null"
                         th:each="teacher: ${teachers}"
                         th:value="${teacher.getId()}"
-                        th:text="${teacher.getSurname()}">
+                        th:text="${teacher.getTeacherFullname().getSurname()}">
                 </option>
             </select>
         </div>
         <div>
-            <input name="date" type="date" th:if="${course} != null" th:value="${course.getDate()}">
+            <input name="date" type="date" th:value="(${course} != null ? ${course.getDate()} : '')">
+        </div>
+        <div>
+            <label>Type</label>
+            <select name="type">
+                <option th:if="${course} != null"
+                        th:selected="${course.getType() == type}"
+                        th:each="type : ${types}"
+                        th:value="${type}"
+                        th:text="${type}">
+                </option>
+                <option th:if="${course} == null"
+                        th:each="type : ${types}"
+                        th:value="${type}"
+                        th:text="${type}">
+                </option>
+            </select>
         </div>
         <input type="hidden" value="${course.}">
         <input type="submit" value="submit">
