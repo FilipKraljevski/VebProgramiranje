@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <section class="jumbotron text-center">
+ <section class="jumbotron text-center">
         <div class="container">
             <h3 class="jumbotron-heading">Shopping cart for
                 <th:block th:if="${session.user != null}" th:text="${session.user.getUsername()}"></th:block>
@@ -45,5 +38,3 @@
             </div>
         </div>
     </div>
-</body>
-</html>

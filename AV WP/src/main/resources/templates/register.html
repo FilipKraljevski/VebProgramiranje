@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
 <div class="container">
     <h1 th:if="${hasError}" th:text="${error}"></h1>
 </div>
@@ -35,7 +28,7 @@
             <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname" required=""
                    autofocus="">
         </p>
-        <!--<p>
+        <p>
         <div class="form-check form-check-inline">
             <input class="form-check-input" name="role" type="radio" id="ROLE_ADMIN" value="ROLE_ADMIN">
             <label class="form-check-label" for="ROLE_ADMIN">ROLE_ADMIN</label>
@@ -44,11 +37,8 @@
             <input class="form-check-input" name="role"  type="radio" id="ROLE_USER" value="ROLE_USER">
             <label class="form-check-label" for="ROLE_USER">ROLE_USER</label>
         </div>
-        </p>-->
+        </p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
     </form>
     <a href="/login" class="btn btn-block btn-light">Already have an account? Login here!</a>
 </div>
-
-</body>
-</html>

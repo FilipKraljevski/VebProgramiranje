@@ -13,4 +13,6 @@ public interface StudentService {
     Student save(String username, String password, String name, String surname);
 
     Optional<Student> findById(String username);
+
+    Optional<Student> login(String username, String password);
 }

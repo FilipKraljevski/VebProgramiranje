@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>WP lab - Students in Course</title>
@@ -15,16 +15,16 @@
             +' '+${grade.getStudent().getSurname()}+' ('+${grade.getStudent().getUsername()}+')'+ ${grade.getGrade()} +
             ' ' + ${#temporals.format(grade.getTimestamp(), 'dd-MM-yyyy HH:mm')}">
         </div>
-        <input type="submit" value="submit" th:text="'Add or Edit grade'">
+        <input type="submit" value="submit" th:text="'Add or Edit grade'" sec:authorize="hasRole('ROLE_ADMIN')">
     </form>
     <form action="/studentEnrollmentSummary/filterGrade" method="POST">
         <div>
             <label for="from">Grades from</label>
-            <input type="datetime-local" id="from" name="timeFrom" placeholder="Enter time">
+            <input type="datetime-local" id="from" name="timeFrom" placeholder="Enter time" required>
         </div>
         <div>
             <label for="to">Grades to</label>
-            <input type="datetime-local" id="to" name="timeTo" placeholder="Enter time">
+            <input type="datetime-local" id="to" name="timeTo" placeholder="Enter time" required>
         </div>
         <input type="submit" value="submit">
     </form>

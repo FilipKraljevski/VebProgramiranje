@@ -42,8 +42,11 @@ public class CourseController {
     @PostMapping
     public String listStudents(@RequestParam Long courseId, Model model, HttpServletRequest req){
         req.getSession().setAttribute("id", courseId);
-        model.addAttribute("courseId", courseId);
-        return "redirect:/addStudent";
+        if(req.getRemoteUser().equals("admin")) {
+            model.addAttribute("courseId", courseId);
+            return "redirect:/addStudent";
+        }
+        return "redirect:/studentEnrollmentSummary";
     }
 
     @PostMapping("/add")

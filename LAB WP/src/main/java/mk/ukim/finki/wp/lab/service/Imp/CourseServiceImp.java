@@ -1,7 +1,6 @@
 package mk.ukim.finki.wp.lab.service.Imp;
 
 import mk.ukim.finki.wp.lab.model.Course;
-import mk.ukim.finki.wp.lab.model.Grade;
 import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.model.Teacher;
 import mk.ukim.finki.wp.lab.model.enumaration.Type;
@@ -17,7 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CourseServiceImp implements CourseService {
@@ -82,14 +80,6 @@ public class CourseServiceImp implements CourseService {
     @Transactional
     public void deleteById(Long id) {
         Course c = courseRepository.findById(id).orElse(null);
-        /*List<Grade> grades = gradeRepository.findAll()
-                .stream()
-                .filter(r -> r.getCourse().equals(c))
-                .collect(Collectors.toList());
-        gradeRepository.deleteByCourse(c);
-        for(Grade g : grades){
-            gradeRepository.deleteById(g.getId());
-        }//so query*/
         gradeRepository.deleteByCourse(c);
         courseRepository.deleteById(id);
     }

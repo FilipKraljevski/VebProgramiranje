@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8">
     <title>Welcome and Choose a Course</title>
@@ -16,20 +16,14 @@
 <main>
     <h2>Choose course:</h2>
     <form action="/courses" method="POST">
-        <div th:each="course : ${courses}">
+        <div th:each="course : ${courses}" class="course">
             <input th:type="radio" th:name="courseId" th:value="${course.getCourseId()}" required th:text="${course.getName()}">
-            <a type="button" th:href="@{'courses/delete/{id}' (id=${course.getCourseId()})}">
+            <a type="button" th:href="@{'courses/delete/{id}' (id=${course.getCourseId()})}" class="delete-course"
+               sec:authorize="hasRole('ROLE_ADMIN')">
                 <i>Delete</i>
             </a>
-            <!--<form th:action="@{'courses/delete/{id}' (id=${course.getCourseId()})}" th:method="DELETE">
-                <button type="submit">
-                    <i>Delete</i>
-                </button>
-            </form>
-            <form th:action="@{'courses/edit-form/{id}' (id=${course.getCourseId()})}" th:method="POST">
-                <button type="submit">Edit</button>
-            </form>-->
-            <a type="button" th:href="@{'courses/edit-form/{id}' (id=${course.getCourseId()})}">
+            <a type="button" th:href="@{'courses/edit-form/{id}' (id=${course.getCourseId()})}" class="edit-course"
+               sec:authorize="hasRole('ROLE_ADMIN')">
                 <i>Edit</i>
             </a>
             <br>
@@ -37,14 +31,18 @@
         <div th:if="${hasError}">
             <div th:text="error"></div>
         </div>
-        <input type="submit" value="submit">
+        <input type="submit" value="submit" sec:authorize="isAuthenticated()">
         <br/>
         </form>
     </form>
     <div>
-        <a type="button" th:href="@{'/courses/add-form'}">Add new course</a>
+        <a type="button" th:href="@{'/courses/add-form'}" class="add-course" sec:authorize="hasRole('ROLE_ADMIN')">
+            Add new course</a>
     </div>
     <div th:text="${'Session count: ' + ses}"></div>
+    <div>
+        <a href="/logout">Logout</a>
+    </div>
 </main>
 </body>
 </html>

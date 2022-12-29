@@ -6,6 +6,7 @@ import mk.ukim.finki.av1wp.model.Product;
 import mk.ukim.finki.av1wp.service.CategoryService;
 import mk.ukim.finki.av1wp.service.ManufacturerService;
 import mk.ukim.finki.av1wp.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,12 +45,14 @@ public class ProductController {
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addProductPage(Model model){
         List<Category> categories = categoryService.listCategories();
         List<Manufacturer> manufacturers = manufacturerService.findAll();
-        model.addAttribute("categories", categories);
         model.addAttribute("manufacturers", manufacturers);
-        return "add-product";
+        model.addAttribute("categories", categories);
+        model.addAttribute("bodyContent", "add-product");
+        return "master-template";
     }
 
     @GetMapping("/edit-form/{id}")
@@ -61,15 +64,21 @@ public class ProductController {
             model.addAttribute("categories", categories);
             model.addAttribute("manufacturers", manufacturers);
             model.addAttribute("product", product);
-            return "add-product";
+            model.addAttribute("bodyContent", "add-product");
+            return "master-template";
         }
         return "redirect:/products?error=ProductNotFound";
     }
 
     @PostMapping("/add")
-    public String saveProduct(@RequestParam String name, @RequestParam Double price, @RequestParam Integer quantity,
-                              @RequestParam Long category, @RequestParam Long manufacturer){
-        productService.save(name, price, quantity, category, manufacturer);
+    public String saveProduct(@RequestParam(required = false) Long id, @RequestParam String name, @RequestParam Double price,
+                              @RequestParam Integer quantity, @RequestParam Long category, @RequestParam Long manufacturer){
+        if(id != null){
+            productService.edit(id, name, price, quantity, category, manufacturer);
+        }
+        else {
+            productService.save(name, price, quantity, category, manufacturer);
+        }
         return "redirect:/products";
     }
 }

@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Products</title>
-</head>
-<body>
-<div>
+<div xmlns:sec="http://www.w3.org/1999/xhtml">
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
@@ -35,7 +28,7 @@
                             <td th:text="${product.getCategory() != null}
                             ? ${product.getCategory().getName()} : 'No Category'"></td>
                             <td class="text-right">
-                               <!-- <th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <form th:action="@{'/products/delete/{id}' (id=${product.getId()})}"
                                           th:method="DELETE">
                                         <button type="submit"
@@ -44,7 +37,7 @@
                                         </button>
                                     </form>
                                 </th:block>
-                                <!--<th:block sec:authorize="hasRole('ROLE_ADMIN')">-->
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{'/products/edit-form/{id}' (id=${product.getId()})}"
                                        class="btn btn-sm btn-info edit-product">
                                         <i class="fa fa-trash">Edit</i>
@@ -76,6 +69,3 @@
         </div>
     </div>
 </div>
-
-</body>
-</html>

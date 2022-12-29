@@ -2,7 +2,6 @@ package mk.ukim.finki.wp.lab.web.controller;
 
 import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Grade;
-import mk.ukim.finki.wp.lab.model.Student;
 import mk.ukim.finki.wp.lab.service.CourseService;
 import mk.ukim.finki.wp.lab.service.GradeService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -35,11 +32,7 @@ public class StudentEnrollmentSummaryController {
         Object o = req.getSession().getAttribute("id");
         Long id = Long.valueOf(String.valueOf(o));
         Course course = courseService.findById(id).orElse(null);
-        //List<Student> s = courseService.listStudentsByCourse(id);
         List<Grade> g =  gradeService.findByCourse(course);
-        /*Collections.sort(s, new SortStudentsBySurname());
-        Collections.sort(g, new SortGradesByStudentSurname());
-        model.addAttribute("students", s);*/
         model.addAttribute("course", course);
         model.addAttribute("grades", g);
         return "studentsInCourse";
@@ -76,21 +69,4 @@ public class StudentEnrollmentSummaryController {
         return "studentsInCourse";
 
     }
-
-    static class SortStudentsBySurname implements Comparator<Student>{
-
-        @Override
-        public int compare(Student o1, Student o2) {
-            return o1.getSurname().compareTo(o2.getSurname());
-        }
-    }
-
-    static class SortGradesByStudentSurname implements Comparator<Grade>{
-
-        @Override
-        public int compare(Grade o1, Grade o2) {
-            return o1.getStudent().getSurname().compareTo(o2.getStudent().getSurname());
-        }
-    }
-
 }

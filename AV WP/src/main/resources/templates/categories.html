@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Categories</title>
-    <meta charset="utf-8">
-</head>
-<body>
-    <h2>Info about our request</h2>
+ <h2>Info about our request</h2>
     <div>IP Address:<th:block th:text="${ipAddress}"></th:block></div>
     <div>Client Agent:<th:block th:text="${clientAgent}"></th:block></div>
     <th:block th:if="${session.user!=null}">
@@ -30,5 +23,3 @@
         <input id='desc' type='text' name='desc'/>
         <input type='submit' value='Submit'/>
     </form>
-</body>
-</html>

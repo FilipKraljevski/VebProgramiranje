@@ -1,9 +1,3 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Login form</title>
-    <link href="/main.css" rel="stylesheet">
-</head>
-<body>
 <div class="container" xmlns:th="http://www.thymeleaf.org">
     <form class="form-signin mt-xl-5" method="post" action="/login">
         <h2 class="form-signin-heading">Sign in</h2>
@@ -20,7 +14,7 @@
         <div th:if="${hasError}" class="error">
             <div th:text="${error}"></div>
         </div>
-        <!--<div th:text="${param.error}" class="text-danger"></div>-->
+        <div th:text="${param.error}" class="text-danger"></div>
         <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
     <a href="/register" class="btn btn-block btn-light">Register here</a>
@@ -36,5 +30,3 @@
         <div th:text="${error}"></div>
     </div>
 </form>-->
-</body>
-</html>

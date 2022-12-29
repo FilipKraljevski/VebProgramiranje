@@ -1,4 +1,4 @@
-package mk.ukim.finki.wp.lab.web.filter;
+/*package mk.ukim.finki.wp.lab.web.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -32,4 +32,4 @@ public class IdCoursesFilter implements Filter {
     public void destroy() {
         Filter.super.destroy();
     }
-}
+}*/
