@@ -28,7 +28,7 @@ public class StudentLoginTest {
         Student student = new Student("username", "password", "name", "surname", Role.ROLE_STUDENT);
         Mockito.when(studentRepository.findByUsernameAndPassword(Mockito.anyString(), Mockito.anyString()))
                 .thenReturn(java.util.Optional.of(student));
-        studentService = Mockito.spy(new StudentServiceImp(studentRepository));
+        studentService = Mockito.spy(new StudentServiceImp(studentRepository, passwordEncoder));
     }
 
     @Test

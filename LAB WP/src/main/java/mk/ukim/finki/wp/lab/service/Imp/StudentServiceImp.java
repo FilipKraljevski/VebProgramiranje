@@ -5,6 +5,9 @@ import mk.ukim.finki.wp.lab.model.enumaration.Role;
 import mk.ukim.finki.wp.lab.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.wp.lab.repository.jpa.StudentRepository;
 import mk.ukim.finki.wp.lab.service.StudentService;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +18,11 @@ import java.util.stream.Collectors;
 public class StudentServiceImp implements StudentService {
     private final StudentRepository studentRepository;
 
-    public StudentServiceImp(StudentRepository studentRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public StudentServiceImp(StudentRepository studentRepository, PasswordEncoder passwordEncoder) {
         this.studentRepository = studentRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,7 +39,7 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public Student save(String username, String password, String name, String surname) {
-        Student s = new Student(username, password, name, surname, Role.ROLE_STUDENT);
+        Student s = new Student(username, passwordEncoder.encode(password), name, surname, Role.ROLE_STUDENT);
         Student tmp = studentRepository.findAll().stream()
                 .filter(r -> r.getUsername().equals(username))
                 .findFirst().orElse(null);
@@ -50,11 +56,16 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public Optional<Student> login(String username, String password) {
-        if(studentRepository.findByUsernameAndPassword(username, password).isEmpty()){
+        if(!studentRepository.findByUsernameAndPassword(username, password).isPresent()){
             throw new InvalidUserCredentialsException();
         }
         else {
             return studentRepository.findByUsernameAndPassword(username, password);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return studentRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

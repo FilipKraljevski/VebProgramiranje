@@ -12,9 +12,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    private final CustomAuthenticationProvider customAuthenticationProvider;
     private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(CustomAuthenticationProvider customAuthenticationProvider, PasswordEncoder passwordEncoder) {
+        this.customAuthenticationProvider = customAuthenticationProvider;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -40,13 +42,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        /*auth.inMemoryAuthentication()
                 .withUser("admin")
                 .password(passwordEncoder.encode("a"))
                 .authorities("ROLE_ADMIN")
                 .and()
                 .withUser("user")
                 .password(passwordEncoder.encode("u"))
-                .authorities("ROLE_USER");
+                .authorities("ROLE_USER");*/
+        auth.authenticationProvider(customAuthenticationProvider);
     }
 }

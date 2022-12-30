@@ -1,8 +1,10 @@
 package mk.ukim.finki.wp.lab.selenium;
 
+import mk.ukim.finki.wp.lab.model.Course;
 import mk.ukim.finki.wp.lab.model.Teacher;
 import mk.ukim.finki.wp.lab.model.TeacherFullName;
 import mk.ukim.finki.wp.lab.model.enumaration.Type;
+import mk.ukim.finki.wp.lab.repository.jpa.CourseRepository;
 import mk.ukim.finki.wp.lab.repository.jpa.TeacherRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
@@ -17,6 +19,9 @@ import java.time.LocalDate;
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class SeleniumScenarioTest {
+    @Autowired
+    private CourseRepository courseRepository;
+
     @Autowired
     private TeacherRepository teacherRepository;
 
@@ -47,21 +52,22 @@ public class SeleniumScenarioTest {
             t = new Teacher(teacherFullName, LocalDate.now());
             teacherRepository.save(t);
             dataInitialized = true;
+            courseRepository.save(new Course("test", desc, null, t, date, Type.WINTER));
         }
     }
 
     @Test
     public void testScenario(){
         CoursesPage coursesPage = CoursesPage.openCourses(driver);
-        coursesPage.AssertElements(0, 0, 0, 0);
+        coursesPage.AssertElements(1, 0, 0, 0);
         LoginPage loginPage = LoginPage.openLogin(driver);
         coursesPage = LoginPage.login(driver, loginPage, "admin", "a");
-        coursesPage.AssertElements(0, 0, 0, 1);
+        coursesPage.AssertElements(1, 1, 1, 1);
         coursesPage = AddCoursePage.addProduct(driver, "c1", desc, "teacher", date.toString(),
                 Type.WINTER.toString());
-        coursesPage.AssertElements(1, 1, 1, 1);
+        coursesPage.AssertElements(2, 2, 2, 1);
         coursesPage = AddCoursePage.addProduct(driver, "c2", desc, "teacher", date.toString(),
                 Type.WINTER.toString());
-        coursesPage.AssertElements(2, 2, 2, 1);
+        coursesPage.AssertElements(3, 3, 3, 1);
     }
 }
